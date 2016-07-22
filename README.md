@@ -35,7 +35,7 @@ text highlighted properly.
 Dim x = 5
 x = x ^ 2 + 1
 Console.WriteLine("x = {0}", x)
-``` 
+``` (remove the brackets here with the text inside)
 ```
 
 ## Supported languages and language codes
