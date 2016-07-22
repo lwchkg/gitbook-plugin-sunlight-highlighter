@@ -30,13 +30,13 @@ text highlighted properly.
 
 ### Example:
 
-````
+```
 ``` vbnet
 Dim x = 5
 x = x ^ 2 + 1
 Console.WriteLine("x = {0}", x)
+``` 
 ```
-````
 
 ## Supported languages and language codes
 
