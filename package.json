@@ -1,6 +1,6 @@
 {
   "name": "gitbook-plugin-sunlight-highlighter",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Sunlight highlighter for GitBook. This highlighter produces better syntax highlighting than the default highlighter in some languages.",
   "homepage": "https://github.com/lwchkg/gitbook-plugin-sunlight-highlighter",
   "bugs": {
@@ -8,6 +8,7 @@
     "email" : "lwchkg@gmail.com"
   },
   "license": "WTFPL",
+  "author":  "WC Leung <lwchkg@gmail.com>",
   "contributors": [
     "Sam Hocevar <sam@hocevar.net>",
     "WC Leung <lwchkg@gmail.com>"
@@ -20,6 +21,6 @@
     "gitbook": ">=3.0.0"
   },
   "dependencies": {
-    "jsdom": ">=9.4.1"
+    "jsdom": "~9"
   }
 }
