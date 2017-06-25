@@ -1,16 +1,17 @@
 {
   "name": "gitbook-plugin-sunlight-highlighter",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Sunlight highlighter for GitBook. This highlighter produces better syntax highlighting than the default highlighter in some languages.",
   "homepage": "https://github.com/lwchkg/gitbook-plugin-sunlight-highlighter",
   "bugs": {
     "url": "https://github.com/lwchkg/gitbook-plugin-sunlight-highlighter/issues",
     "email": "lwchkg@gmail.com"
   },
-  "license": "WTFPL",
+  "main": "babel-out/index.js",
+  "license": "Apache-2.0",
   "author": "WC Leung <lwchkg@gmail.com>",
   "contributors": [
-    "Sam Hocevar <sam@hocevar.net>",
+    "Tommy Montgomery <tmont@tmont.com>",
     "WC Leung <lwchkg@gmail.com>"
   ],
   "repository": {
@@ -37,5 +38,12 @@
         "description": "Whether to show line numbering in the result."
       }
     }
+  },
+  "scripts": {
+    "compile": "babel --presets env -d babel-out/ src/",
+    "prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.5.2"
   }
 }
