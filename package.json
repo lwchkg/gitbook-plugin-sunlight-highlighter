@@ -1,26 +1,49 @@
 {
   "name": "gitbook-plugin-sunlight-highlighter",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Sunlight highlighter for GitBook. This highlighter produces better syntax highlighting than the default highlighter in some languages.",
   "homepage": "https://github.com/lwchkg/gitbook-plugin-sunlight-highlighter",
   "bugs": {
-    "url" : "https://github.com/lwchkg/gitbook-plugin-sunlight-highlighter/issues",
-    "email" : "lwchkg@gmail.com"
+    "url": "https://github.com/lwchkg/gitbook-plugin-sunlight-highlighter/issues",
+    "email": "lwchkg@gmail.com"
   },
-  "license": "WTFPL",
-  "author":  "WC Leung <lwchkg@gmail.com>",
+  "main": "babel-out/index.js",
+  "license": "Apache-2.0",
+  "author": "WC Leung <lwchkg@gmail.com>",
   "contributors": [
-    "Sam Hocevar <sam@hocevar.net>",
+    "Tommy Montgomery <tmont@tmont.com>",
     "WC Leung <lwchkg@gmail.com>"
   ],
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/lwchkg/gitbook-plugin-sunlight-highlighter.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lwchkg/gitbook-plugin-sunlight-highlighter.git"
   },
   "engines": {
     "gitbook": ">=3.0.0"
   },
   "dependencies": {
+    "fs-extra": ">=1.0.0",
     "jsdom": "~9"
+  },
+  "gitbook": {
+    "properties": {
+      "theme": {
+        "type": "string",
+        "default": "default",
+        "description": "Specify the theme (\"default\" or \"dark\")."
+      },
+      "lineNumber": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether to show line numbering in the result."
+      }
+    }
+  },
+  "scripts": {
+    "compile": "babel --presets env -d babel-out/ src/",
+    "prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.5.2"
   }
 }
