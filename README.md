@@ -114,6 +114,17 @@ If you specify a different size for the code, or is using a non-default theme, y
 
 Anyway, “0.5em” is completely internal to Sunlight highlighter, so do not modify unless you want to customize the look.
 
+## To specify the background color of the highlighted code
+
+Here is the CSS snippet of the default theme determining the background color of the code output.
+```css
+.sunlight-code-container {
+  border-color: #969696 !important;
+	background-color: #FFFFFF !important;
+}
+```
+If you do not like the background color of Sunlight output, you may add some CSS to override it. Note: the default background color is #f7f7f7.
+
 ## TODO
 - Make show line numbers / starting line number to be an option for each code snippet.
 - Expose other configuration options in Sunlight highlighter.
