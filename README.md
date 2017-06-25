@@ -8,6 +8,8 @@ without performing static analysis. Check out the
 
 Licensed under Apache License 2.0.
 
+_**Note: Please check the section [breaking changes](#breaking-changes) if your old book does not build anymore.**_
+
 ## Installation
 
 You use Sunlight highlighter by adding the following in the book configuration:
@@ -25,8 +27,10 @@ pale orange color.)
 
 You can specify the following in the book configuration:
 
-- The theme: “default” or “dark” (default to “default”).
-- Whether to show line numbers (default to false).
+| Option | Default | Valid values | Description |
+|--|--|--|--|
+| theme | "gitbook" | "gitbook", "light", "dark" | Syntax highlighting theme |
+| lineNumber | false | false, true | Whether to show line numbers |
 
 A sample configuration is shown below:
 
@@ -49,7 +53,7 @@ text highlighted properly.
 ### Example:
 
 ```
-``` vbnet
+```vbnet
 Dim x = 5
 x = x ^ 2 + 1
 Console.WriteLine("x = {0}", x)
@@ -90,8 +94,7 @@ Console.WriteLine("x = {0}", x)
 | Visual Studio solution files (*.sln) | sln           |
 | XML                                  | xml           |
 
-In addition to the languages above, there is a default highlighter is called
-"plaintext". It does exactly nothing to the source.
+In addition to the languages above, there is a default highlighter is called "plaintext". It does exactly nothing to the source.
 
 ## READ THIS you have changed the GitBook theme or CSS
 
@@ -99,12 +102,12 @@ The following CSS is added to Sunlight highlighter to fit into the style of GitB
 
 ```css
 .sunlight-code-container {
-	margin: -1em -1.1765em;
-	padding: 1em 1.1765em;
+  margin: -1em -1.1765em;
+  padding: 1em 1.1765em;
 }
 .sunlight-line-number-margin {
-	margin: -1em 0.5em -1em -1.1765em !important;
-	padding: 1em 0.5em 1em 1.1765em !important;
+  margin: -1em 0.5em -1em -1.1765em !important;
+  padding: 1em 0.5em 1em 1.1765em !important;
 }
 ```
 
@@ -116,18 +119,27 @@ Anyway, “0.5em” is completely internal to Sunlight highlighter, so do not mo
 
 ## To specify the background color of the highlighted code
 
-Here is the CSS snippet of the default theme determining the background color of the code output.
+Here is the CSS snippet of the “gitbook” theme determining the background color of the code output.
 ```css
 .sunlight-code-container {
   border-color: #969696 !important;
-	background-color: #FFFFFF !important;
+  background-color: #FFFFFF !important;
 }
 ```
-If you do not like the background color of Sunlight output, you may add some CSS to override it. Note: the default background color is #f7f7f7.
+If you do not like the background color of Sunlight output, you may add some CSS to override it.
 
 ## TODO
 - Make show line numbers / starting line number to be an option for each code snippet.
+- Add the possibility to select a different theme for each code snippet.
 - Expose other configuration options in Sunlight highlighter.
+
+## Breaking changes
+### Version 0.2.1
+- "default" theme (in 0.2.0) is renamed to "light".
+  If you specified "default" theme you need to update your book.json before building.
+
+- The new default theme is "gitbook", which is essentially the "light" theme but with background color changed to #f7f7f7 (same as the color of GitBook code area).
+  If you prefer the old theme in 0.2.0, you should switch to the "light" theme.
 
 ## Known issues
 - Language code in highlight.js does not work. (TODO: Create a mapping of the
@@ -139,5 +151,5 @@ If you do not like the background color of Sunlight output, you may add some CSS
 - For Sunlight highlighter in general, refer to the links.
 
 ## Links
-- [Sunlight](http://sunlightjs.com/)
+- [Sunlight: intelligent syntax highlighting](http://sunlightjs.com/)
 - [GitHub repository of Sunlight](https://github.com/tmont/sunlight)

@@ -2,23 +2,17 @@
 .sunlight-container {
 	clear: both !important;
 	position: relative !important;
-	/*margin: 10px 0 !important;*/
 }
 .sunlight-code-container {
 	clear: both !important;
 	position: relative !important;
 	border: none;
 	border-color: #969696 !important;
-	background-color: #FFFFFF !important;
+	background-color: #F7F7F7 !important;
 
 	margin: -1em -1.1765em;
 	padding: 1em 1.1765em;
 }
-/*.sunlight-highlighted, .sunlight-container, .sunlight-container textarea, .sunlight-container pre {
-	font-family: Consolas, Inconsolata, Monaco, "Courier New" !important;
-	font-size: 12px !important;
-	line-height: 15px !important;
-}*/
 .sunlight-highlighted, .sunlight-container textarea {
 	color: #000000 !important;
 	margin: 0 !important;
@@ -43,16 +37,13 @@
 }
 .sunlight-line-number-margin {
 	float: left !important;
-	/*margin-right: 5px !important;
-	margin-top: 0 !important;
-	margin-bottom: 0 !important;
-	padding: 0 !important;
-	padding-right: 4px !important;
-	padding-left: 4px !important;*/
 	margin: -1em 0.5em -1em -1.1765em !important;
 	padding: 1em 0.5em 1em 1.1765em !important;
 
 	border-right: 1px solid #CCCCCC !important;
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+
 	background-color: #EEEEEE !important;
 	color: #848484 !important;
 	text-align: right !important;
