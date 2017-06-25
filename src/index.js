@@ -2,8 +2,8 @@
 
 const fse = require('fs-extra');
 const path = require('path');
-const sunlight = require('./sunlight-all-min.js').Sunlight;
-// const highlighter = new sunlight.Highlighter();
+const sunlight = require('../sunlight-all-min.js').Sunlight;
+const highlighter = new sunlight.Highlighter();
 
 const cssFile = 'sunlight.css';
 const pluginName = 'sunlight-highlighter';
@@ -26,10 +26,10 @@ function ValidateTheme(theme) {
  * @param {string} theme The theme selected by the options.
  */
 function WriteAssets(output, log, theme) {
-  const pluginPath = path.join('gitbook', `gitbook-plugin-${pluginName}`);
-
-  const inputFile = path.join(__dirname, 'themes', `sunlight.${theme}.css`);
-  const outputPath = path.join(output.root(), pluginPath);
+  const inputFile =
+      path.join(__dirname, '..', 'themes', `sunlight.${theme}.css`);
+  const outputPath =
+      path.join(output.root(), 'gitbook', `gitbook-plugin-${pluginName}`);
   const outputFile = path.join(outputPath, cssFile);
   log.debug.ln('Writing the theme...');
   fse.ensureDirSync(outputPath);
@@ -64,7 +64,7 @@ function highlight(lang, code) {
 
   try {
     const lineNumbers = defaultLineNumber !== false;
-    const highlighter = new sunlight.Highlighter({lineNumbers: lineNumbers});
+    highlighter.options.lineNumbers = lineNumbers;
 
     const jsdom = require('jsdom').jsdom;
     const document = jsdom('', {});
