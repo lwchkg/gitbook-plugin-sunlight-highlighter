@@ -123,7 +123,7 @@ Here is the CSS snippet of the “gitbook” theme determining the background co
 ```css
 .sunlight-code-container {
   border-color: #969696 !important;
-  background-color: #FFFFFF !important;
+  background-color: #F7F7F7 !important;
 }
 ```
 If you do not like the background color of Sunlight output, you may add some CSS to override it.
