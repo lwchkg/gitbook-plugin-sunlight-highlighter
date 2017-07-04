@@ -41,6 +41,9 @@
 	padding: 1em 0.5em 1em 1.1765em !important;
 
 	border-right: 1px solid #CCCCCC !important;
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+
 	background-color: #EEEEEE !important;
 	color: #848484 !important;
 	text-align: right !important;
