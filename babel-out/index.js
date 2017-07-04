@@ -11,12 +11,18 @@ var pluginName = 'sunlight-highlighter';
 var defaultLineNumber = void 0;
 
 /**
- * Validate the theme. If invalid output 'default' instead of the input string.
- * @param {string} theme The theme to be validated.
- * @returns {string} The valudated theme.
+ * Validate the name of the theme. If valid returns the name, otherwise returns
+ * 'gitbook', i.e. the default theme.
+ * @param {string} name The name of theme to be validated.
+ * @returns {string}
  */
-function ValidateTheme(theme) {
-  return theme === 'dark' ? 'dark' : 'default';
+function ValidateTheme(name) {
+  var validThemes = {
+    'gitbook': '',
+    'light': '',
+    'dark': ''
+  };
+  return validThemes.hasOwnProperty(name) ? name : 'gitbook';
 }
 
 /**

@@ -1,3 +1,6 @@
+# NPM stuff (these appear to break "npm install")
+package-lock.json
+
 # Logs
 logs
 *.log
