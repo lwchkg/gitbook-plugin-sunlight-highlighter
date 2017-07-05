@@ -1,14 +1,12 @@
 'use strict';
 
-const fse = require('fs-extra');
-const path = require('path');
 const sunlight = require('../sunlight-all-min.js').Sunlight;
 const highlighter = new sunlight.Highlighter();
 
-const cssFile = 'sunlight.css';
-const pluginName = 'sunlight-highlighter';
+const pluginName = 'Sunlight-highlighter';
 
-let defaultLineNumber;
+let defaultLineNumbers;
+let defaultTheme;
 
 /**
  * Validate the name of the theme. If valid returns the name, otherwise returns
@@ -26,34 +24,61 @@ function ValidateTheme(name) {
 }
 
 /**
- * Write assets
- * @param {Object} output output object by GitBook.
- * @param {Object} log log object by GitBook.
- * @param {string} theme The theme selected by the options.
+ * Loads the options in book.json or book.js. These options are used unless
+ * overriden by a per-page/per-script option.
+ * @param {Object} options Pass this.options to this parameter.
  */
-function WriteAssets(output, log, theme) {
-  const inputFile =
-      path.join(__dirname, '..', 'themes', `sunlight.${theme}.css`);
-  const outputPath =
-      path.join(output.root(), 'gitbook', `gitbook-plugin-${pluginName}`);
-  const outputFile = path.join(outputPath, cssFile);
-  log.debug.ln('Writing the theme...');
-  fse.ensureDirSync(outputPath);
-  fse.copySync(inputFile, outputFile, {preserveTimestamps: true});
+function loadDefaultOptions(options) {
+  const pluginOptions = options.pluginsConfig['sunlight-highlighter'];
+
+  defaultLineNumbers = pluginOptions.lineNumber;
+
+  const theme = ValidateTheme(pluginOptions.theme);
+  defaultTheme = theme;
 }
 
 /**
- * Loads the book info.
- * @param {Object} options Pass this.options to this parameter.
- * @param {Object} log log object by GitBook.
- * @param {Object} output
+ * Parse the options
+ * @param {sting[]} optionList The list of options. Each option is formatted in
+ * "key:value". Examples are "theme:gitbook", "lineNumbers:true", and
+ * "lineNumberStart:10".
+ * @returns {Map} Key-value pairs of options.
  */
-function loadBookInfo(options, log, output) {
-  const pluginOptions = options.pluginsConfig['sunlight-highlighter'];
+function parseOptions(optionList) {
+  const options = new Map();
+  options.set('lineNumbers', defaultLineNumbers);
+  options.set('lineNumberStart', 1);
 
-  const theme = ValidateTheme(pluginOptions.theme);
-  WriteAssets(output, log, theme);
-  defaultLineNumber = pluginOptions.lineNumber;
+  for (const optionItem of optionList) {
+    let [key, value] = optionItem.split(':', 2);
+    if (value === undefined)
+      [key, value] = optionItem.split('_', 2);
+
+    switch (key) {
+    case 'theme':
+      if (/^[A-Za-z0-9]+$/.test(value))
+        options.set(key, ValidateTheme(value));
+      else
+        throw new Error(`${pluginName}: Invalid theme: ${key}`);
+      break;
+    case 'lineNumbers':
+      if (value === 'true' || value === 'false')
+        options.set(key, value === 'true');
+      else
+        throw new Error(`${pluginName}: lineNumbers must be true or false. Given value: ${value}`);
+      break;
+    case 'lineNumberStart':
+      if (/^[0-9]+$/.test(value))
+        options.set(key, Number.parseInt(value));
+      else
+        throw new Error(`${pluginName}: lineNumberStart must be a non-negative integer. Given value: ${value}`);
+      break;
+    default:
+      throw new Error(`${pluginName}: Unknown options: ${key}`);
+    }
+  }
+
+  return options;
 }
 
 /**
@@ -63,14 +88,23 @@ function loadBookInfo(options, log, output) {
  * @returns {string} The highlighted HTML code.
  */
 function highlight(lang, code) {
-  if (!lang) return {
-    body: code,
-    html: false,
-  };
+  if (!lang)
+    return {body: code, html: false};
+
+  let optionData = lang.replace(' ', '').split('+');
+  if (optionData.length === 1)
+    optionData = optionData[0].split('__');
+  lang = optionData.shift();
+  const options = parseOptions(optionData);
 
   try {
-    const lineNumbers = defaultLineNumber !== false;
-    highlighter.options.lineNumbers = lineNumbers;
+    let theme = defaultTheme;
+    for (const [key, value] of options) {
+      if (key === 'theme')
+        theme = value;
+      else
+        highlighter.options[key] = value;
+    }
 
     const jsdom = require('jsdom').jsdom;
     const document = jsdom('', {});
@@ -84,6 +118,10 @@ function highlight(lang, code) {
     dummyElement.appendChild(preElement);
     highlighter.highlightNode(preElement);
 
+    const rootNode = dummyElement.childNodes[0];
+    rootNode.setAttribute('class',
+        rootNode.getAttribute('class') + ` sunlight-theme-${theme}`);
+
     return dummyElement.innerHTML;
   } catch (e) { console.log(e); }
 
@@ -94,8 +132,14 @@ function highlight(lang, code) {
 }
 
 module.exports = {
-  book: {css: [cssFile]},
-  ebook: {css: [cssFile]},
+  book: {
+    assets: 'compiled-assets',
+    css: ['sunlight.css'],
+  },
+  ebook: {
+    assets: 'compiled-assets',
+    css: ['sunlight.css'],
+  },
   blocks: {
     code: function(block) {
       return highlight(block.kwargs.language, block.body);
@@ -103,7 +147,7 @@ module.exports = {
   },
   hooks: {
     init: function() {
-      loadBookInfo(this.options, this.log, this.output);
+      loadDefaultOptions(this.options);
     },
   },
 };

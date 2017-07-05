@@ -142,8 +142,8 @@ If you do not like the background color of Sunlight output, you may add some CSS
   If you prefer the old theme in 0.2.0, you should switch to the "light" theme.
 
 ## Known issues
-- Language code in highlight.js does not work. (TODO: Create a mapping of the
-  language codes.)
+- Language code in highlight.js does not work. (TODO: Create a mapping of the language codes.)
+- When line numbers are used, the e-book/PDF outputs are not satisfactory.
 
 ## Report bugs / Contributions
 - To report issues and request features for the GitBook plugin, post an issue in the

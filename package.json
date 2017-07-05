@@ -45,10 +45,14 @@
     }
   },
   "scripts": {
-    "compile": "babel --presets env -d babel-out/ src/",
+    "compile": "npm run compile-js && npm run compile-css",
+    "compile-css": "lessc style/sunlight.less compiled-assets/sunlight.css",
+    "compile-js": "babel --presets env -d babel-out/ src/",
     "prepublish": "npm run compile"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.5.2"
+    "babel-cli": ">=6.24.1",
+    "babel-preset-env": ">=1.5.2",
+    "less": ">=2.7.2"
   }
 }
