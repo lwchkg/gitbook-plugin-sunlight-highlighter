@@ -121,10 +121,11 @@
         "es6": true,
         "node": true
     },
-    "parseOptions": {
+    "parserOptions": {
         "ecmaVersion": 6,
         "sourceType": "module",
         "ecmaFeatures": {"impliedStrict": true}
     },
-    "extends": "eslint:recommended"
+    "extends": "eslint:recommended",
+    "root": true
 }

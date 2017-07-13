@@ -4,6 +4,8 @@
       "targets": {
         "node": "5.11.1"
       }
-    }]
+    }],
+    "babel-preset-power-assert",
+    "jsdoc-to-assert"
   ]
 }

@@ -1,5 +1,3 @@
-'use strict';
-
 const sunlight = require('../sunlight-all-min.js').Sunlight;
 const highlighter = new sunlight.Highlighter();
 
@@ -120,7 +118,7 @@ function highlight(lang, code) {
 
     const rootNode = dummyElement.childNodes[0];
     rootNode.setAttribute('class',
-        rootNode.getAttribute('class') + ` sunlight-theme-${theme}`);
+      rootNode.getAttribute('class') + ` sunlight-theme-${theme}`);
 
     return dummyElement.innerHTML;
   } catch (e) { console.log(e); }

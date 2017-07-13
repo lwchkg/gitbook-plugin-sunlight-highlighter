@@ -1,98 +1,19 @@
 /* global styles */
 .sunlight-code-container {
-	clear: both !important;
-	position: relative !important;
-	border: none;
 	border-color: #969696 !important;
 	background-color: #F7F7F7 !important;
-
-	margin: -1em -1.1765em;
-	padding: 1em 1.1765em;
 }
 .sunlight-highlighted, .sunlight-container textarea {
 	color: #000000 !important;
-	margin: 0 !important;
-}
-.sunlight-container textarea {
-	padding-left: 0 !important;
-	margin-left: 0 !important;
-	margin-right: 0 !important;
-	padding-right: 0 !important;
-}
-.sunlight-code-container > .sunlight-highlighted {
-	white-space: pre;
-	overflow-x: auto;
-	overflow-y: hidden; /* ie requires this wtf? */
-}
-.sunlight-highlighted {
-	z-index: 1;
-	position: relative;
-}
-.sunlight-highlighted * {
-	background: transparent;
 }
 .sunlight-line-number-margin {
-	float: left !important;
-	margin: -1em 0.5em -1em -1.1765em !important;
-	padding: 1em 0.5em 1em 1.1765em !important;
-
 	border-right: 1px solid #CCCCCC !important;
-	border-top-right-radius: 0 !important;
-	border-bottom-right-radius: 0 !important;
-
 	background-color: #EEEEEE !important;
 	color: #848484 !important;
-	text-align: right !important;
-	position: relative;
-	z-index: 3;
-}
-.sunlight-highlighted a, .sunlight-line-number-margin a  {
-	border: none !important;
-	text-decoration: none !important;
-	font-weight: normal !important;
-	font-style: normal !important;
-	padding: 0 !important;
-}
-.sunlight-line-number-margin a {
-	color: inherit !important;
-}
-.sunlight-line-highlight-overlay {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	z-index: 0;
-}
-.sunlight-line-highlight-overlay div {
-	height: 15px;
-	width: 100%;
 }
 .sunlight-line-highlight-overlay .sunlight-line-highlight-active {
 	background-color: #E7FCFA;
 }
-
-/* menu */
-.sunlight-menu {
-	background-color: #FFFFCC;
-	color: #000000;
-}
-.sunlight-menu ul {
-	margin: 0 !important;
-	padding: 0 !important;
-	list-style-type: none !important;
-}
-.sunlight-menu li {
-	float: right !important;
-	margin-left: 5px !important;
-}
-.sunlight-menu a, .sunlight-menu img {
-	color: #000099 !important;
-	text-decoration: none !important;
-	border: none !important;
-}
-
-
-
 
 .sunlight-string,
 .sunlight-char,

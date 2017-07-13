@@ -18,6 +18,12 @@
     "type": "git",
     "url": "https://github.com/lwchkg/gitbook-plugin-sunlight-highlighter.git"
   },
+  "files": [
+    "babel-out/",
+    "compiled-assets/",
+    "docs",
+    "sunlight-all-min.js"
+  ],
   "engines": {
     "gitbook": ">=3.0.0"
   },
@@ -47,12 +53,22 @@
   "scripts": {
     "compile": "npm run compile-js && npm run compile-css",
     "compile-css": "lessc style/sunlight.less compiled-assets/sunlight.css",
-    "compile-js": "babel --presets env -d babel-out/ src/",
-    "prepublish": "npm run compile"
+    "compile-js": "babel -d babel-out/ src/",
+    "lint": "eslint src/*.js test/*.js",
+    "mocha": "mocha",
+    "prepare": "npm run compile",
+    "test": "npm run lint && npm run testOnly",
+    "testOnly": "npm run compile-js && npm run mocha"
   },
   "devDependencies": {
-    "babel-cli": ">=6.24.1",
-    "babel-preset-env": ">=1.5.2",
-    "less": ">=2.7.2"
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-jsdoc-to-assert": "^4.0.0",
+    "babel-preset-power-assert": "^1.0.0",
+    "babel-register": "^6.24.1",
+    "eslint": "^4.2.0",
+    "less": "^2.7.2",
+    "mocha": "^3.4.2",
+    "power-assert": "^1.4.4"
   }
 }
