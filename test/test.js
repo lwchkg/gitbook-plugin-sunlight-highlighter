@@ -63,7 +63,8 @@ describe('blocks.code', function() {
     },
     {
       testName: 'compiles code with all options set (#2)',
-      languageInput: 'javascript+theme:light+lineNumbers:false+lineNumberStart:5',
+      languageInput:
+        'javascript+theme:light+lineNumbers:false+lineNumberStart:5',
       themeExpected: 'light',
       lineNumbersExpected: false,
     },
@@ -97,9 +98,9 @@ describe('blocks.code', function() {
       const divElement = getDivElementFromDocument(document);
 
       assert(
-        getClassList(divElement).includes(
+        getClassList(divElement).indexOf(
           `sunlight-theme-${test.themeExpected}`
-        )
+        ) >= 0
       );
 
       assert.strictEqual(
