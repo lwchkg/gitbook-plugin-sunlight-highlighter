@@ -36,12 +36,7 @@
       "theme": {
         "type": "string",
         "default": "gitbook",
-        "description": "Specify the theme (\"gitbook\", \"light\" or \"dark\").",
-        "enum": [
-          "gitbook",
-          "light",
-          "dark"
-        ]
+        "description": "Specify the theme (\"gitbook\", \"light\" or \"dark\")."
       },
       "lineNumber": {
         "type": "boolean",

@@ -8,18 +8,15 @@ let defaultTheme;
 let log;
 
 /**
- * Validate the name of the theme. If valid returns the name, otherwise returns
- * 'gitbook', i.e. the default theme.
+ * Sanitize the name of the theme. Returns the name if it is alphanumeric.
+ * Otherwise returns "gitbook", i.e. the default theme.
  * @param {string} name The name of theme to be validated.
  * @returns {string}
  */
-function ValidateTheme(name) {
-  const validThemes = {
-    'gitbook': '',
-    'light': '',
-    'dark': '',
-  };
-  return validThemes.hasOwnProperty(name) ? name : 'gitbook';
+function SanitizeTheme(name) {
+  if (/^[0-9A-Za-z]*$/.test(name))
+    return name;
+  return 'gitbook';
 }
 
 /**
@@ -32,8 +29,16 @@ function loadDefaultOptions(options) {
 
   defaultLineNumbers = pluginOptions.lineNumber;
 
-  const theme = ValidateTheme(pluginOptions.theme);
+  const theme = SanitizeTheme(pluginOptions.theme);
   defaultTheme = theme;
+}
+
+/**
+ * Log an error
+ @param {string} message
+ */
+function logError(message) {
+  log.error.ln(`${pluginName}: ${message}`);
 }
 
 /**
@@ -54,24 +59,24 @@ function parseOptions(optionList) {
     switch (key) {
     case 'theme':
       if (/^[A-Za-z0-9]+$/.test(value))
-        options.set(key, ValidateTheme(value));
+        options.set(key, SanitizeTheme(value));
       else
-        throw new Error(`${pluginName}: Invalid theme: ${key}`);
+        logError(`Invalid theme: ${key}`);
       break;
     case 'lineNumbers':
       if (value === 'true' || value === 'false')
         options.set(key, value === 'true');
       else
-        throw new Error(`${pluginName}: lineNumbers must be true or false. Given value: ${value}`);
+        logError(`lineNumbers must be true or false. Given value: ${value}`);
       break;
     case 'lineNumberStart':
       if (/^[0-9]+$/.test(value))
         options.set(key, Number.parseInt(value));
       else
-        throw new Error(`${pluginName}: lineNumberStart must be a non-negative integer. Given value: ${value}`);
+        logError(`lineNumberStart must be a non-negative integer. Given value: ${value}`);
       break;
     default:
-      throw new Error(`${pluginName}: Unknown options: ${key}`);
+      logError(`Unknown options: ${key}`);
     }
   }
 
@@ -122,10 +127,7 @@ function highlight(lang, code) {
     return dummyElement.innerHTML;
   } catch (e) { log.error(e); }
 
-  return {
-    body: code,
-    html: false,
-  };
+  return {body: code, html: false};
 }
 
 module.exports = {
