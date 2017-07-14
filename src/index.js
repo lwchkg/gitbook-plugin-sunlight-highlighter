@@ -1,5 +1,6 @@
 const sunlight = require('../sunlight-all-min.js').Sunlight;
 const highlighter = new sunlight.Highlighter();
+import {SanitizeLanguage} from './lang-mapping.js';
 
 const pluginName = 'Sunlight-highlighter';
 
@@ -96,7 +97,7 @@ function highlight(lang, code) {
     return {body: code, html: false};
 
   const optionData = lang.replace(' ', '').split('+');
-  lang = optionData.shift();
+  lang = SanitizeLanguage(optionData.shift());
   const options = parseOptions(optionData);
 
   try {

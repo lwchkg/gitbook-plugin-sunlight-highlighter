@@ -35,34 +35,34 @@ describe('blocks.code', function() {
 
   const tests = [
     {
-      testName: 'compiles code',
+      testName: 'highlights code',
       languageInput: 'javascript',
     },
     {
-      testName: 'compiles code with theme',
+      testName: 'highlights code with theme',
       languageInput: 'javascript+theme:light',
       themeExpected: 'light',
     },
     {
-      testName: 'compiles code with lineNumbers',
+      testName: 'highlights code with lineNumbers',
       languageInput: 'javascript+lineNumbers:true',
       lineNumbersExpected: true,
     },
     {
-      testName: 'compiles code with lineNumbers and lineNumberStart',
+      testName: 'highlights code with lineNumbers and lineNumberStart',
       languageInput: 'javascript+lineNumbers:true+lineNumberStart:100',
       lineNumbersExpected: true,
       lineNumberStartExpected: 100,
     },
     {
-      testName: 'compiles code with all options set (#1)',
+      testName: 'highlights code with all options set (#1)',
       languageInput: 'javascript+theme:dark+lineNumbers:true+lineNumberStart:5',
       themeExpected: 'dark',
       lineNumbersExpected: true,
       lineNumberStartExpected: 5,
     },
     {
-      testName: 'compiles code with all options set (#2)',
+      testName: 'highlights code with all options set (#2)',
       languageInput:
         'javascript+theme:light+lineNumbers:false+lineNumberStart:5',
       themeExpected: 'light',
@@ -71,7 +71,7 @@ describe('blocks.code', function() {
   ];
 
   beforeEach(function() {
-    const plugin = require('../babel-out/index.js');
+    const plugin = require('../src/index.js');
     init = plugin.hooks.init;
     highlight = plugin.blocks.code;
     const env = {
