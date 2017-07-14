@@ -51,14 +51,18 @@
     }
   },
   "scripts": {
+    "babel": "babel",
     "compile": "npm run compile-js && npm run compile-css",
     "compile-css": "lessc style/sunlight.less compiled-assets/sunlight.css",
-    "compile-js": "babel -d babel-out/ src/",
+    "compile-debug": "npm run compile-js-debug && npm run compile-css",
+    "compile-js": "cross-env NODE_ENV=production babel -d babel-out/ src/",
+    "compile-js-debug": "babel -d babel-out/ src/",
+    "lessc": "lessc",
     "lint": "eslint src/*.js test/*.js",
     "mocha": "mocha",
     "prepare": "npm run compile",
     "test": "npm run lint && npm run testOnly",
-    "testOnly": "npm run compile-js && npm run mocha"
+    "testOnly": "npm run compile-js-debug && npm run mocha"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -66,6 +70,7 @@
     "babel-preset-jsdoc-to-assert": "^4.0.0",
     "babel-preset-power-assert": "^1.0.0",
     "babel-register": "^6.24.1",
+    "cross-env": "^5.0.1",
     "eslint": "^4.2.0",
     "less": "^2.7.2",
     "mocha": "^3.4.2",

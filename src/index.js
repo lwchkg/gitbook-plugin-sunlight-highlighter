@@ -5,6 +5,7 @@ const pluginName = 'Sunlight-highlighter';
 
 let defaultLineNumbers;
 let defaultTheme;
+let log;
 
 /**
  * Validate the name of the theme. If valid returns the name, otherwise returns
@@ -48,9 +49,7 @@ function parseOptions(optionList) {
   options.set('lineNumberStart', 1);
 
   for (const optionItem of optionList) {
-    let [key, value] = optionItem.split(':', 2);
-    if (value === undefined)
-      [key, value] = optionItem.split('_', 2);
+    const [key, value] = optionItem.split(':', 2);
 
     switch (key) {
     case 'theme':
@@ -81,17 +80,17 @@ function parseOptions(optionList) {
 
 /**
  * Highlight the code block.
- * @param {string} lang The language and other parameter.
- * @param {string} code The code to be highlighted.
+ * @param {string|undefined} lang The language and other parameter.
+ * @param {string|undefined} code The code to be highlighted.
  * @returns {string} The highlighted HTML code.
  */
 function highlight(lang, code) {
   if (!lang)
+    lang = 'plaintext';
+  else if (lang === 'nohighlight')
     return {body: code, html: false};
 
-  let optionData = lang.replace(' ', '').split('+');
-  if (optionData.length === 1)
-    optionData = optionData[0].split('__');
+  const optionData = lang.replace(' ', '').split('+');
   lang = optionData.shift();
   const options = parseOptions(optionData);
 
@@ -121,7 +120,7 @@ function highlight(lang, code) {
       rootNode.getAttribute('class') + ` sunlight-theme-${theme}`);
 
     return dummyElement.innerHTML;
-  } catch (e) { console.log(e); }
+  } catch (e) { log.error(e); }
 
   return {
     body: code,
@@ -146,6 +145,7 @@ module.exports = {
   hooks: {
     init: function() {
       loadDefaultOptions(this.options);
+      log = this.log;
     },
   },
 };
