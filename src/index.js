@@ -59,7 +59,7 @@ function parseOptions(optionList) {
 
     switch (key) {
     case 'theme':
-      if (/^[A-Za-z0-9]+$/.test(value))
+      if (/^[A-Za-z0-9_-]*$/.test(value))
         options.set(key, SanitizeTheme(value));
       else
         logError(`Invalid theme: ${key}`);
