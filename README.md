@@ -69,6 +69,40 @@ Console.WriteLine("x = {0}", x)
 ```
 ~~~
 
+## Options in each code block
+
+`sunlight-highlighter` allows setting options in the language info.
+The syntax is shown below:
+~~~
+```lang+option1:value1+option2:value2...
+// Your source code
+```
+~~~
+
+The following options are now available (all case sensitive):
+
+| Option            | Description        |
+|-------------------|--------------------|
+| `theme`           | The theme. `gitbook`, `light` and `dark` are bundled with this plugin. |
+| `lineNumbers`     | Whether to show line numbers. Valid values are `true` and `false`. |
+| `lineNumberStart` | The line number of the first line. Can be any non-negative number. If not set, the value is 1. |
+
+Here is an example that highlight with the `vb` language, use the `dark` theme, and shows line numbers which starts from `100`:
+~~~
+```vb+theme:dark+lineNumbers:true+lineNumberStart:100
+// Your source code
+```
+~~~
+
+See the ([demo](https://lwchkg.gitbooks.io/tests-of-sunlight-highlighter/content/markdown-fenced.html)) for more examples.
+
+### Setting options in plugin include-codeblock
+
+The plugin [include-codeblock](https://www.npmjs.com/package/gitbook-plugin-include-codeblock) imports source code from a file into your GitBook pages.
+Starting from version 3.1.1, the plugin is compatible with sunlight-highlighter 0.3.0 to enter options in the language string.
+See the ([demo here](https://lwchkg.gitbooks.io/tests-of-sunlight-highlighter/content/markdown-include-codeblock.html)).
+
+
 ## Supported languages and language codes
 
 | Language                             | Code          |
@@ -136,7 +170,7 @@ Note: “0.5em” does not belong to the padding offset. Do not modify unless yo
 
 ## Custom themes
 
-** Warning: The CSS for the themes will change in future versions. **
+** Warning: the CSS for the themes will change in future versions. **
 
 To add a custom theme:
 
