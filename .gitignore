@@ -1,3 +1,7 @@
+# Build output
+babel-out
+compiled-assets
+
 # NPM stuff (these appear to break "npm install")
 package-lock.json
 

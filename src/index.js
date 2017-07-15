@@ -1,76 +1,113 @@
-'use strict';
-
-const fse = require('fs-extra');
-const path = require('path');
 const sunlight = require('../sunlight-all-min.js').Sunlight;
 const highlighter = new sunlight.Highlighter();
+import {SanitizeLanguage} from './lang-mapping.js';
 
-const cssFile = 'sunlight.css';
-const pluginName = 'sunlight-highlighter';
+const pluginName = 'Sunlight-highlighter';
 
-let defaultLineNumber;
+let defaultLineNumbers;
+let defaultTheme;
+let log;
 
 /**
- * Validate the name of the theme. If valid returns the name, otherwise returns
- * 'gitbook', i.e. the default theme.
+ * Sanitize the name of the theme. Returns the name if it is alphanumeric.
+ * Otherwise returns "gitbook", i.e. the default theme.
  * @param {string} name The name of theme to be validated.
  * @returns {string}
  */
-function ValidateTheme(name) {
-  const validThemes = {
-    'gitbook': '',
-    'light': '',
-    'dark': '',
-  };
-  return validThemes.hasOwnProperty(name) ? name : 'gitbook';
+function SanitizeTheme(name) {
+  if (/^[0-9A-Za-z]*$/.test(name))
+    return name;
+  return 'gitbook';
 }
 
 /**
- * Write assets
- * @param {Object} output output object by GitBook.
- * @param {Object} log log object by GitBook.
- * @param {string} theme The theme selected by the options.
- */
-function WriteAssets(output, log, theme) {
-  const inputFile =
-      path.join(__dirname, '..', 'themes', `sunlight.${theme}.css`);
-  const outputPath =
-      path.join(output.root(), 'gitbook', `gitbook-plugin-${pluginName}`);
-  const outputFile = path.join(outputPath, cssFile);
-  log.debug.ln('Writing the theme...');
-  fse.ensureDirSync(outputPath);
-  fse.copySync(inputFile, outputFile, {preserveTimestamps: true});
-}
-
-/**
- * Loads the book info.
+ * Loads the options in book.json or book.js. These options are used unless
+ * overriden by a per-page/per-script option.
  * @param {Object} options Pass this.options to this parameter.
- * @param {Object} log log object by GitBook.
- * @param {Object} output
  */
-function loadBookInfo(options, log, output) {
+function loadDefaultOptions(options) {
   const pluginOptions = options.pluginsConfig['sunlight-highlighter'];
 
-  const theme = ValidateTheme(pluginOptions.theme);
-  WriteAssets(output, log, theme);
-  defaultLineNumber = pluginOptions.lineNumber;
+  defaultLineNumbers = pluginOptions.lineNumber;
+
+  const theme = SanitizeTheme(pluginOptions.theme);
+  defaultTheme = theme;
+}
+
+/**
+ * Log an error
+ @param {string} message
+ */
+function logError(message) {
+  log.error.ln(`${pluginName}: ${message}`);
+}
+
+/**
+ * Parse the options
+ * @param {sting[]} optionList The list of options. Each option is formatted in
+ * "key:value". Examples are "theme:gitbook", "lineNumbers:true", and
+ * "lineNumberStart:10".
+ * @returns {Map} Key-value pairs of options.
+ */
+function parseOptions(optionList) {
+  const options = new Map();
+  options.set('lineNumbers', defaultLineNumbers);
+  options.set('lineNumberStart', 1);
+
+  for (const optionItem of optionList) {
+    const [key, value] = optionItem.split(':', 2);
+
+    switch (key) {
+    case 'theme':
+      if (/^[A-Za-z0-9_-]*$/.test(value))
+        options.set(key, SanitizeTheme(value));
+      else
+        logError(`Invalid theme: ${key}`);
+      break;
+    case 'lineNumbers':
+      if (value === 'true' || value === 'false')
+        options.set(key, value === 'true');
+      else
+        logError(`lineNumbers must be true or false. Given value: ${value}`);
+      break;
+    case 'lineNumberStart':
+      if (/^[0-9]+$/.test(value))
+        options.set(key, Number.parseInt(value));
+      else
+        logError(`lineNumberStart must be a non-negative integer. Given value: ${value}`);
+      break;
+    default:
+      logError(`Unknown options: ${key}`);
+    }
+  }
+
+  return options;
 }
 
 /**
  * Highlight the code block.
- * @param {string} lang The language and other parameter.
- * @param {string} code The code to be highlighted.
+ * @param {string|undefined} lang The language and other parameter.
+ * @param {string|undefined} code The code to be highlighted.
  * @returns {string} The highlighted HTML code.
  */
 function highlight(lang, code) {
-  if (!lang) return {
-    body: code,
-    html: false,
-  };
+  if (!lang)
+    lang = 'plaintext';
+  else if (lang === 'nohighlight')
+    return {body: code, html: false};
+
+  const optionData = lang.replace(' ', '').split('+');
+  lang = SanitizeLanguage(optionData.shift());
+  const options = parseOptions(optionData);
 
   try {
-    const lineNumbers = defaultLineNumber !== false;
-    highlighter.options.lineNumbers = lineNumbers;
+    let theme = defaultTheme;
+    for (const [key, value] of options) {
+      if (key === 'theme')
+        theme = value;
+      else
+        highlighter.options[key] = value;
+    }
 
     const jsdom = require('jsdom').jsdom;
     const document = jsdom('', {});
@@ -84,18 +121,25 @@ function highlight(lang, code) {
     dummyElement.appendChild(preElement);
     highlighter.highlightNode(preElement);
 
-    return dummyElement.innerHTML;
-  } catch (e) { console.log(e); }
+    const rootNode = dummyElement.childNodes[0];
+    rootNode.setAttribute('class',
+      rootNode.getAttribute('class') + ` sunlight-theme-${theme}`);
 
-  return {
-    body: code,
-    html: false,
-  };
+    return dummyElement.innerHTML;
+  } catch (e) { log.error(e); }
+
+  return {body: code, html: false};
 }
 
 module.exports = {
-  book: {css: [cssFile]},
-  ebook: {css: [cssFile]},
+  book: {
+    assets: 'compiled-assets',
+    css: ['sunlight.css'],
+  },
+  ebook: {
+    assets: 'compiled-assets',
+    css: ['sunlight.css'],
+  },
   blocks: {
     code: function(block) {
       return highlight(block.kwargs.language, block.body);
@@ -103,7 +147,8 @@ module.exports = {
   },
   hooks: {
     init: function() {
-      loadBookInfo(this.options, this.log, this.output);
+      loadDefaultOptions(this.options);
+      log = this.log;
     },
   },
 };

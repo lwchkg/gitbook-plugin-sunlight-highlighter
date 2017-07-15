@@ -1,0 +1,8 @@
+sudo: false
+language: node_js
+node_js:
+- "node"
+- "lts/*"
+- "5.1"
+script:
+- npm test
