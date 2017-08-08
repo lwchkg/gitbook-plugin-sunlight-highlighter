@@ -1,5 +1,4 @@
-const sunlight = require('../sunlight-all-min.js').Sunlight;
-const highlighter = new sunlight.Highlighter();
+import {Highlighter} from 'sunlight-x';
 import {SanitizeLanguage} from './lang-mapping.js';
 
 const pluginName = 'Sunlight-highlighter';
@@ -28,7 +27,7 @@ function SanitizeTheme(name) {
 function loadDefaultOptions(options) {
   const pluginOptions = options.pluginsConfig['sunlight-highlighter'];
 
-  defaultLineNumbers = pluginOptions.lineNumber;
+  defaultLineNumbers = pluginOptions.lineNumbers;
 
   const theme = SanitizeTheme(pluginOptions.theme);
   defaultTheme = theme;
@@ -47,12 +46,12 @@ function logError(message) {
  * @param {sting[]} optionList The list of options. Each option is formatted in
  * "key:value". Examples are "theme:gitbook", "lineNumbers:true", and
  * "lineNumberStart:10".
- * @returns {Map} Key-value pairs of options.
+ * @returns {Object} Key-value pairs of options.
  */
 function parseOptions(optionList) {
-  const options = new Map();
-  options.set('lineNumbers', defaultLineNumbers);
-  options.set('lineNumberStart', 1);
+  const options = {};
+  options.lineNumbers = defaultLineNumbers;
+  options.lineNumberStart = 1;
 
   for (const optionItem of optionList) {
     const [key, value] = optionItem.split(':', 2);
@@ -60,19 +59,19 @@ function parseOptions(optionList) {
     switch (key) {
     case 'theme':
       if (/^[A-Za-z0-9_-]*$/.test(value))
-        options.set(key, SanitizeTheme(value));
+        options[key] = SanitizeTheme(value);
       else
         logError(`Invalid theme: ${key}`);
       break;
     case 'lineNumbers':
       if (value === 'true' || value === 'false')
-        options.set(key, value === 'true');
+        options[key] = value === 'true';
       else
         logError(`lineNumbers must be true or false. Given value: ${value}`);
       break;
     case 'lineNumberStart':
       if (/^[0-9]+$/.test(value))
-        options.set(key, Number.parseInt(value));
+        options[key] = Number.parseInt(value);
       else
         logError(`lineNumberStart must be a non-negative integer. Given value: ${value}`);
       break;
@@ -99,33 +98,13 @@ function highlight(lang, code) {
   const optionData = lang.replace(' ', '').split('+');
   lang = SanitizeLanguage(optionData.shift());
   const options = parseOptions(optionData);
+  if (!options.hasOwnProperty('theme'))
+    options.theme = defaultTheme;
 
   try {
-    let theme = defaultTheme;
-    for (const [key, value] of options) {
-      if (key === 'theme')
-        theme = value;
-      else
-        highlighter.options[key] = value;
-    }
+    const highlighter = new Highlighter(options);
 
-    const jsdom = require('jsdom').jsdom;
-    const document = jsdom('', {});
-
-    const preElement = document.createElement('div');
-    // Note: setting innerText does not work in jsdoc 9.4.2
-    preElement.appendChild(document.createTextNode(code));
-    preElement.setAttribute('class', `sunlight-highlight-${lang}`);
-
-    const dummyElement = document.createElement('div');
-    dummyElement.appendChild(preElement);
-    highlighter.highlightNode(preElement);
-
-    const rootNode = dummyElement.childNodes[0];
-    rootNode.setAttribute('class',
-      rootNode.getAttribute('class') + ` sunlight-theme-${theme}`);
-
-    return dummyElement.innerHTML;
+    return highlighter.highlightCode(code, lang);
   } catch (e) { log.error(e); }
 
   return {body: code, html: false};
