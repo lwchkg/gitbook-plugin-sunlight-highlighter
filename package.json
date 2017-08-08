@@ -63,7 +63,7 @@
     "mocha": "mocha",
     "prepare": "npm run compile",
     "test": "npm run lint && npm run testOnly",
-    "testOnly": "npm run compile-js-debug && npm run mocha"
+    "testOnly": "npm run mocha"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
