@@ -1,28 +1,6 @@
-// Do not pass sunlight-all-min.js to babel. It is broken after compilation.
-require('babel-register')({ignore: ['node_modules', '*/sunlight-all-min.js']});
-
-import assert from 'power-assert';
-import {jsdom} from 'jsdom';
+import {verifyResult} from './fixtures/common.js';
 
 let init, highlight;
-
-/**
- * Return the first div element inside the root node of the document.
- * @param {Object} document
- * @return {Object}
- */
-function getDivElementFromDocument(document) {
-  return document.body.childNodes[0];
-}
-
-/**
- * Return the list of class names of a HTML DOM node.
- * @param {Object} node
- * @return {string[]}
- */
-function getClassList(node) {
-  return node.className.split(' ');
-}
 
 describe('blocks.code', function() {
   const testDefaults = Object.freeze({
@@ -94,39 +72,14 @@ describe('blocks.code', function() {
         kwargs: {language: test.languageInput},
         body: test.code,
       });
-      const document = jsdom(result, {});
-      const divElement = getDivElementFromDocument(document);
 
-      assert(
-        getClassList(divElement).indexOf(
-          `sunlight-theme-${test.themeExpected}`
-        ) >= 0
+      verifyResult(
+        result,
+        test.languageExpected,
+        test.themeExpected,
+        test.lineNumbersExpected,
+        test.lineNumberStartExpected
       );
-
-      assert.strictEqual(
-        1,
-        divElement.getElementsByClassName(
-          `sunlight-highlighted sunlight-highlight-${test.languageExpected}`
-        ).length
-      );
-
-      const divLineNumberMargins = divElement.getElementsByClassName(
-        'sunlight-line-number-margin'
-      );
-
-      assert.strictEqual(
-        test.lineNumbersExpected ? 1 : 0,
-        divLineNumberMargins.length
-      );
-
-      if (test.lineNumbersExpected) {
-        const startLineNumberRegEx = /^sunlight-\d+-line-(\d+)$/;
-        const match = divLineNumberMargins[0].childNodes[0].name.match(
-          startLineNumberRegEx
-        );
-        assert.notStrictEqual(match, null);
-        assert.strictEqual(test.lineNumberStartExpected.toString(), match[1]);
-      }
     });
   });
 });
