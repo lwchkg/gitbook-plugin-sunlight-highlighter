@@ -32,6 +32,8 @@
 .sunlight-highlighted {
 	z-index: 1;
 	position: relative;
+	background: inherit;
+	padding: 0;
 }
 
 .sunlight-highlighted * {
