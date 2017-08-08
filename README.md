@@ -38,7 +38,7 @@ You can specify the following in the book configuration:
 | Option | Default | Valid values | Description |
 |--|--|--|--|
 | `theme` | `"gitbook"` | any string | Syntax highlighting theme. Themes `"gitbook"`, `"light"` and `"dark"` are bundled with this plugin. |
-| `lineNumber` | `false` | `false`, `true` | Whether to show line numbers |
+| `lineNumbers` | `false` | `false`, `true` | Whether to show line numbers |
 
 A sample configuration is shown below:
 
@@ -174,7 +174,7 @@ Note: “0.5em” does not belong to the padding offset. Do not modify unless yo
 
 To add a custom theme:
 
-1. Download a theme from (https://github.com/lwchkg/gitbook-plugin-sunlight-highlighter/tree/0.3.0/style/themes)
+1. Download a theme from (https://github.com/lwchkg/gitbook-plugin-sunlight-highlighter/tree/0.4.0/style/themes)
 1. Edit the downloaded theme.
 1. The name of the theme must consist only of letters, digits, `_` and `-`.
 1. Suppose the name of your theme is `acme`.
@@ -194,6 +194,9 @@ To add a custom theme:
 - Expose other configuration options in Sunlight highlighter.
 
 ## Breaking changes
+### Version 0.4.0
+- The plugin option `lineNumber` in `book.json` is renamed to `lineNumbers` (was a misspell). This is done so the option name is the same everywhere.
+
 ### Version 0.3.0
 - CSS are changed.
   Overrides of CSS older versions will not work.
