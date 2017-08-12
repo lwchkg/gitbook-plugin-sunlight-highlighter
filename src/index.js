@@ -90,9 +90,7 @@ function parseOptions(optionList) {
  * @returns {string} The highlighted HTML code.
  */
 function highlight(lang, code) {
-  if (!lang)
-    lang = 'plaintext';
-  else if (lang === 'nohighlight')
+  if (!lang || lang === 'nohighlight')
     return {body: code, html: false};
 
   const optionData = lang.replace(' ', '').split('+');

@@ -1,3 +1,15 @@
+/* AsciiDoc override */
+.markdown-section .highlight {
+	overflow: visible; /* remove scroll bars */
+}
+
+/* GitBook override */
+.sunlight-code-container, .sunlight-line-number-margin {
+	margin: -1em -1.1765em;
+	padding: 1em 1.1765em;
+}
+
+/* sunlight-x stylesheet */
 .sunlight-container {
 	clear: both !important;
 	position: relative !important;
@@ -7,9 +19,6 @@
 	clear: both !important;
 	position: relative !important;
 	border: none;
-
-	margin: -1em -1.1765em;
-	padding: 1em 1.1765em;
 }
 
 .sunlight-highlighted, .sunlight-container textarea {
@@ -42,8 +51,8 @@
 
 .sunlight-line-number-margin {
 	float: left !important;
-	margin: -1em 0.5em -1em -1.1765em !important;
-	padding: 1em 0.5em 1em 1.1765em !important;
+	margin-right: 0.5em !important;
+	padding-right: 0.5em !important;
 
 	/*border-right: 1px solid #9A9A9A !important;*/
 	border-top-right-radius: 0 !important;

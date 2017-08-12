@@ -143,6 +143,7 @@ In addition to the languages above, the following language code are available:
 |------|----------|
 | plaintext | No highlighting, but has theming and optionally add line numbers.
 | nohighlight | Bypass the highlighter, i.e. no highlighting, no theming and no line numbers.
+| (nothing)   | Same as “nohighlight”.
 | any highlight.js language | Maps to the corresponding sunlight language if supported (see above for the list).
 
 ## Styling Sunlight highlighter
@@ -152,13 +153,9 @@ In addition to the languages above, the following language code are available:
 The following CSS is added to Sunlight highlighter to fit into the style of GitBook:
 
 ```css
-.sunlight-code-container {
-  margin: -1em -1.1765em;
-  padding: 1em 1.1765em;
-}
-.sunlight-line-number-margin {
-  margin: -1em 0.5em -1em -1.1765em !important;
-  padding: 1em 0.5em 1em 1.1765em !important;
+.sunlight-code-container, .sunlight-line-number-margin {
+	margin: -1em -1.1765em;
+	padding: 1em 1.1765em;
 }
 ```
 
@@ -166,7 +163,7 @@ This is done to offset the “0.85em 1em” padding created by GitBook. Code in 
 
 If you specify a different font size for the code, or is using a non-default theme, you should override these values with your own custom CSS. (It is sad that there is no all-in-one solution, and you need to make a different override for every different case.)
 
-Note: “0.5em” does not belong to the padding offset. Do not modify unless you want to customize the look.
+Note: `margin-right` and `padding-right` of `.sunlight-line-number-margin` are be further overridden.
 
 ## Custom themes
 
