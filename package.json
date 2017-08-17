@@ -33,8 +33,6 @@
     "gitbook": ">=3.0.0"
   },
   "dependencies": {
-    "fs-extra": ">=1.0.0",
-    "jsdom": "~9",
     "sunlight-x": "^0.0.2"
   },
   "gitbook": {
