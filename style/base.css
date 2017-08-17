@@ -1,5 +1,5 @@
 /* AsciiDoc override */
-.markdown-section .highlight {
+.markdown-section .highlight, .page .section .highlight {
 	overflow: visible; /* remove scroll bars */
 }
 
