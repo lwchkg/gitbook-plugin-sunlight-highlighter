@@ -1,6 +1,6 @@
 {
   "name": "gitbook-plugin-sunlight-highlighter",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Sunlight highlighter for GitBook. This highlighter produces better syntax highlighting than the default highlighter in some languages.",
   "keywords": [
     "gitbook",
@@ -33,7 +33,7 @@
     "gitbook": ">=3.0.0"
   },
   "dependencies": {
-    "sunlight-x": "^0.0.2"
+    "sunlight-x": "^0.0.3"
   },
   "gitbook": {
     "properties": {
