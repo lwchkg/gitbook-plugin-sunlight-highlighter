@@ -33,7 +33,7 @@
     "gitbook": ">=3.0.0"
   },
   "dependencies": {
-    "sunlight-x": "^0.0.2"
+    "sunlight-x": "^0.0.3"
   },
   "gitbook": {
     "properties": {
