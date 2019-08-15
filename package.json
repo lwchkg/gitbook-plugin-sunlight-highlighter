@@ -30,7 +30,8 @@
     "sunlight-all-min.js"
   ],
   "engines": {
-    "gitbook": ">=3.0.0"
+    "gitbook": ">=3.0.0",
+    "node": ">=10.13"
   },
   "dependencies": {
     "sunlight-x": "0.0.4"
