@@ -96,7 +96,7 @@ function highlight(lang, code) {
   const optionData = lang.replace(' ', '').split('+');
   lang = SanitizeLanguage(optionData.shift());
   const options = parseOptions(optionData);
-  if (!options.hasOwnProperty('theme'))
+  if (!Object.prototype.hasOwnProperty.call(options, 'theme'))
     options.theme = defaultTheme;
 
   try {

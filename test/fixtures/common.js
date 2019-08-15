@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {jsdom} from 'jsdom';
+import {JSDOM} from 'jsdom';
 
 /**
  * Return the first div element inside the root node of the document.
@@ -34,7 +34,7 @@ export function verifyResult(
   lineNumbersExpected,
   lineNumberStartExpected
 ) {
-  const document = jsdom(result, {});
+  const document = new JSDOM(result).window.document;
   const divElement = getDivElementFromDocument(document);
 
   assert(

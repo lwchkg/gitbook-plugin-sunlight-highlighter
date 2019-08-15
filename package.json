@@ -1,6 +1,6 @@
 {
   "name": "gitbook-plugin-sunlight-highlighter",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "Sunlight highlighter for GitBook. This highlighter produces better syntax highlighting than the default highlighter in some languages.",
   "keywords": [
     "gitbook",
@@ -33,7 +33,7 @@
     "gitbook": ">=3.0.0"
   },
   "dependencies": {
-    "sunlight-x": "^0.0.3"
+    "sunlight-x": "0.0.4"
   },
   "gitbook": {
     "properties": {
@@ -64,15 +64,16 @@
     "testOnly": "npm run mocha"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.5.2",
-    "babel-preset-jsdoc-to-assert": "^4.0.0",
-    "babel-preset-power-assert": "^1.0.0",
-    "babel-register": "^6.24.1",
-    "cross-env": "^5.0.5",
-    "eslint": "^4.2.0",
-    "less": "^2.7.2",
-    "mocha": "^3.4.2",
-    "power-assert": "^1.4.4"
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-preset-jsdoc-to-assert": "^5.0.0",
+    "babel-preset-power-assert": "^3.0.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^6.1.0",
+    "less": "^3.9.0",
+    "mocha": "^6.2.0",
+    "power-assert": "^1.6.1"
   }
 }
