@@ -60,5 +60,7 @@ const hljsToSunlight = {
  * @returns {string}
  */
 export function SanitizeLanguage(lang) {
-  return hljsToSunlight.hasOwnProperty(lang) ? hljsToSunlight[lang] : lang;
+  return Object.prototype.hasOwnProperty.call(hljsToSunlight, lang)
+    ? hljsToSunlight[lang]
+    : lang;
 }
