@@ -34,7 +34,8 @@
     "node": ">=10.13"
   },
   "dependencies": {
-    "sunlight-x": "0.0.4"
+    "sunlight-x": "0.0.4",
+    "snyk": "^1.319.0"
   },
   "gitbook": {
     "properties": {
@@ -60,9 +61,10 @@
     "lessc": "lessc",
     "lint": "eslint src/*.js test/*.js",
     "mocha": "mocha",
-    "prepare": "npm run compile",
+    "prepare": "npm run snyk-protect && npm run compile",
     "test": "npm run lint && npm run testOnly",
-    "testOnly": "npm run mocha"
+    "testOnly": "npm run mocha",
+    "snyk-protect": "snyk protect"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -76,5 +78,6 @@
     "less": "^3.9.0",
     "mocha": "^6.2.0",
     "power-assert": "^1.6.1"
-  }
+  },
+  "snyk": true
 }
